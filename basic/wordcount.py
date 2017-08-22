@@ -45,6 +45,52 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
+#Read a file and return it's text
+def readFile(filename):
+  f = open(filename, 'rU')
+  text = f.read()
+  f.close()
+  return text
+
+#Used for sorting by count of words
+def last(tuple):
+  return tuple[1]
+
+#Returns a list of tuples sorted by count
+def buildDictionary(text):
+  dict = {}
+
+  for word in text.split():
+    word = word.lower()
+    if word not in dict:
+      dict[word] = 1
+    else:
+      dict[word] += 1
+  return sorted(dict.items(), key=last, reverse=True)
+
+#Print list of tuples. Defaults to printing the top 20
+def printList(dict, length = 20):
+  for word in dict:
+    if length > 0:
+      print word[0] + ' ' + str(word[1])
+    length -= 1
+
+#Print all words
+def print_words(filename):
+  text = readFile(filename)
+
+  dict = buildDictionary(text)
+
+  printList(dict, len(dict))
+
+#Print Top 20 Words
+def print_top(filename):
+  text = readFile(filename)
+
+  dict = buildDictionary(text)
+
+  printList(dict)
+
 ###
 
 # This basic command line argument parsing code is provided and
